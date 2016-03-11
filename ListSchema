@@ -1,0 +1,11 @@
+
+var mongoose = require('mongoose');
+var Schema = mongoose.Schema;
+
+var List = new Schema({
+    ListId: {type: String},
+    entry: [{Product: String, Amount: Number, Price: Number}]
+});
+
+
+mongoose.model("List", List);
