@@ -61,14 +61,22 @@ app.post('/newlist', function(req, res) {
 
 
 app.post('/additem', function(req, res) {
-    var ListId = req.body.ListId;
     console.log(req.body);
-    ListModel.update({"name":ListId},{ $push: {Product: req.body.Product, Amount: req.body.Amount, Price: req.body.Price }}, function(err,res){
-    res.send('Item is added, you can add another item now');
+    var tObj = {Product: req.body.Product, Amount: req.body.Amount, Price: req.body.Price };
+    ListModel.update({"ListId":req.body.ListId},{ "$push": {"entry": tObj} }, function(err,res1){
+        if(err){console.log(err);}
+        res.send('Item is added');
     });
-
 });
 
+app.post('/removeitem', function(req, res) {
+    console.log(req.body);
+    var tObj = {Product: req.body.Product, Amount: req.body.Amount, Price: req.body.Price };
+    ListModel.update({"ListId":req.body.ListId},{ "$pull": {"entry": tObj} }, function(err,res1){
+        if(err){console.log(err);}
+        res.send('Item is removed');
+    });
+});
 
 
 
