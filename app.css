@@ -1,0 +1,16 @@
+.center {
+	text-align: center;
+}
+
+input[type="text"]{
+	padding: 10px;
+  	border: solid 1px #dcdcdc;
+  	transition: box-shadow 0.3s, border 0.3s;
+}
+
+input[type="number"]{
+	padding: 10px;
+  	border: solid 1px #dcdcdc;
+  	transition: box-shadow 0.3s, border 0.3s;
+}
+
