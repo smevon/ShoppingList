@@ -21,30 +21,39 @@ app.get('/', function(req, res){
    });
    
    
-/*
-app.get('/register', function(req,res){
-      res.send('Welcome to this Cool Shopping List');
-   });
 
-app.get('/register/:param1/:param2', function(req,res){
+app.post('/register', function(req,res){
+    console.log(req.body);
+    if(PersonModel.count({"id": req.body.Id})>0){ res.send('Username already taken');}
+    else{
     var newPerson = new PersonModel();
-        newPerson.id = req.params.param1;
-        newPerson.Password = req.params.param1;
+        newPerson.id = req.body.Id;
+        newPerson.Password = req.body.Password;
         newPerson.save(function(err){console.log(err);});
+        res.send('Your account is ready');
+    }
 });
 
 
-
-
-app.get('/login/:param1/:param2', function(req,res){
-   PersonModel.find({"id":req.params.param1}, function(err,output){
+app.get('/account/', function(req,res){
+   PersonModel.find({}, function(err,output){
        res.send(output);
        });
 });
-*/
+
+
+app.post('/login', function(req,res){
+   console.log(req.body);
+   if(PersonModel.count({"id": req.body.Id, "Password": req.body.Password})<=0) res.send('Wrong Id or Password');
+   else{
+       res.send('You are logged in');
+   }
+});
+
+
 
 app.get('/list/:param1', function(req,res){
-   ListModel.find({"List_id":req.params.param1}, function(err,output){
+   ListModel.find({"ListId":req.params.param1}, function(err,output){
        res.send(output);
        });
 });
@@ -58,6 +67,12 @@ app.post('/newlist', function(req, res) {
         newList.save(function(err){console.log(err);});
         res.send('List is ready, you can add items now');
     });
+
+app.post('/removelist', function(req, res) {
+        ListModel.remove({"ListId":req.body.ListId}, function(err,res1){
+        res.send('You bought everything, you can go home');
+    });
+});
 
 
 app.post('/additem', function(req, res) {
